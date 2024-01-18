@@ -1,0 +1,82 @@
+/* css variable */
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	/* overflow-y: hidden; */
+	/* background-color: #ffffff;
+    background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #ffffff4b 40px ), repeating-linear-gradient( #a5a6b611, #a5a6b621 ); */
+}
+
+/* Undeline */
+.myBox {
+	text-align: center;
+	border-bottom: 5px solid transparent;
+	border-radius: 50%;
+	border-image: linear-gradient(0.25turn, rgb(0, 131, 124), rgb(0, 175, 206), rgba(56, 2, 155, 0));
+	border-image-slice: 1;
+	width: 5%;
+}
+
+/* ?input shake effect*/
+.shake {
+	animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+	10%,
+	90% {
+		transform: translateX(-5px);
+	}
+
+	20%,
+	80% {
+		transform: translateX(5px);
+	}
+
+	30%,
+	50%,
+	70% {
+		transform: translateX(-5px);
+	}
+
+	40%,
+	60% {
+		transform: translateX(5px);
+	}
+}
+
+/* .input-shade  */
+
+.input-shade {
+	color: rgb(59, 57, 57);
+	border-radius: 0.5em;
+	background: #c7c6c610;
+	border-top: 1px solid #e7e4e415;
+	border-left: 1px solid #e7e4e415;
+	border-right: 1px solid #ffffff;
+	border-bottom: 1px solid #ffffff;
+	transition: all 0.3s;
+	box-shadow:
+		3px 3px 5px #c5c5c54f,
+		-3px -3px 5px #ffffff;
+
+	outline: none;
+}
+
+.input-shade:hover {
+	border: 1px solid rgba(255, 255, 255, 0.671);
+}
+
+.input-shade:focus {
+	background: rgba(240, 236, 236, 0.123);
+	box-shadow:
+		inset 3px 3px 2px #c5c5c548,
+		-3px -3px 12px #ffffffc0,
+		inset -3px -3px 10px #ffffffc4,
+		3px 3px 2px #7c7b7b1a;
+}
