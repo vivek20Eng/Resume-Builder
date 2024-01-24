@@ -3,6 +3,7 @@
 	import SaveButton from '../home/SaveButton.svelte';
 	import { afterUpdate } from 'svelte';
 	import { educationStore } from '../../lib/stores/educationStore.js';
+
 	let educations = [];
 	let institution = '';
 	let course = '';
@@ -12,11 +13,17 @@
 	let showSuccessMessage = false;
 	let errorMessage = '';
 	let editingIndex = null;
+	let showEducationForm = false;
 
 	const dispatch = createEventDispatcher();
 
+	let institutionError = '';
+	let courseNameError = '';
+	let courseError = '';
+	let passoutYearError = '';
+	let markScoreError = '';
+
 	function handleEducationInformation() {
-		// Validate all fields
 		if (
 			!validateInstitution() ||
 			!validateCourseName() ||
@@ -60,22 +67,19 @@
 
 				setTimeout(() => {
 					showSuccessMessage = false;
-					showEducationForm = false; // Close the popup when success message is displayed
+					showEducationForm = false;
 				}, 1000);
 
 				if (editingIndex !== null) {
-					// Editing an existing education
 					educations[editingIndex] = { ...formData, id: insertedEducationId };
 					educationStore.set(educations);
 
 					editingIndex = null;
 				} else {
-					// Adding a new education
 					educations = [...educations, { ...formData, id: insertedEducationId }];
 					educationStore.set(educations);
 				}
 
-				// Clear the form after submission
 				resetForm();
 			})
 			.catch((error) => {
@@ -88,269 +92,282 @@
 		if (showSuccessMessage) {
 			setTimeout(() => {
 				showSuccessMessage = false;
-				showEducationForm = false; // Close the popup when success message is displayed
 			}, 1000);
+			showEducationForm = false;
 		}
 	});
 
-	// Function to validate institution
 	function validateInstitution() {
 		if (!institution.trim()) {
-			errorMessage = 'Institution is required.';
+			institutionError = 'Institution is required.';
 			return false;
 		} else {
-			errorMessage = '';
+			institutionError = '';
 			return true;
 		}
 	}
 
-	// Function to validate course name
 	function validateCourseName() {
 		if (!courseName.trim()) {
-			errorMessage = 'Stream (Course Name) is required.';
+			courseNameError = 'Stream (Course Name) is required.';
 			return false;
 		} else {
-			errorMessage = '';
+			courseNameError = '';
 			return true;
 		}
 	}
 
-	// Function to validate course
 	function validateCourse() {
 		if (!course.trim()) {
-			errorMessage = 'Course is required.';
+			courseError = 'Course is required.';
 			return false;
 		} else {
-			errorMessage = '';
+			courseError = '';
 			return true;
 		}
 	}
 
-	// Function to validate passout year (numeric validation)
 	function validatePassoutYear() {
 		if (!passoutYear.trim() || isNaN(Number(passoutYear))) {
-			errorMessage = 'Please enter a valid passout year.';
+			passoutYearError = 'Please enter a valid passout year.';
 			return false;
 		} else {
-			errorMessage = '';
+			passoutYearError = '';
 			return true;
 		}
 	}
 
-	// Function to validate mark score (numeric validation)
 	function validateMarkScore() {
 		if (!markScore.trim() || isNaN(Number(markScore))) {
-			errorMessage = 'Please enter a valid mark score.';
+			markScoreError = 'Please enter a valid mark score.';
 			return false;
 		} else {
-			errorMessage = '';
+			markScoreError = '';
 			return true;
 		}
 	}
 
-	// Function to remove education by index
 	function removeEducation(index) {
 		educations = educations.filter((_, i) => i !== index);
 		educationStore.set(educations);
 	}
 
-	// Function to edit education by index
 	function editEducation(index) {
 		const education = educations[index];
 		editingIndex = index;
 
-		// Populate form fields with existing data for editing
 		institution = education.institution;
 		course = education.course;
 		passoutYear = education.passoutYear;
 		courseName = education.courseName;
 		markScore = education.markScore;
-		showEducationForm = true; // Show the education form when editing
+		showEducationForm = true;
 	}
 
-	// Function to reset the form
 	function resetForm() {
 		institution = '';
 		course = '';
 		passoutYear = '';
 		courseName = '';
 		markScore = '';
+		institutionError = '';
+		courseNameError = '';
+		courseError = '';
+		passoutYearError = '';
+		markScoreError = '';
 	}
 
-	let showEducationForm = false; // New variable to control form visibility
-
 	function showEducationFormHandler() {
-		// Function to toggle the visibility of the education form
 		showEducationForm = !showEducationForm;
 
-		// Reset the form when it is displayed
 		if (showEducationForm) {
 			resetForm();
 		} else {
-			// Close the popup when adding an education
 			showEducationForm = false;
 		}
 	}
 
-	// Function to cancel and close the education form
 	function cancelEducationForm() {
 		showEducationForm = false;
 		resetForm();
 	}
 </script>
 
-<section class="">
-	<!-- <button on:click={showEducationFormHandler}>Add Education</button> -->
-</section>
-<!-- {#if showEducationForm} -->
-<div class="overlay">
-	<div class="modal">
-		<div class="flex flex-wrap">
-			<!-- Institution -->
-			<div class="w-full md:w-1/1 px-3 md:mb-0">
-				<label
-					class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
-					for="grid-institution"
-				>
-					Institution
-				</label>
-				<input
-					class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-					id="grid-institution"
-					type="text"
-					placeholder=""
-					bind:value={institution}
-				/>
-			</div>
-			<!-- course name -->
-			<div class="w-full md:w-1/2 px-3 md:mb-0">
-				<label
-					class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
-					for="grid-course-name"
-				>
-					Stream
-				</label>
-				<input
-					class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-					id="grid-course-name"
-					type="text"
-					placeholder=""
-					bind:value={courseName}
-				/>
-			</div>
-			<!-- course -->
-			<div class="w-full md:w-1/2 px-3">
-				<label
-					class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
-					for="grid-course"
-				>
-					Course
-				</label>
-				<input
-					class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-					id="grid-Course"
-					type="text"
-					placeholder=""
-					bind:value={course}
-				/>
-			</div>
-			<!-- passout year with real-time validation -->
-			<div class="w-full md:w-1/1 px-3 md:mb-0">
-				<label
-					class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
-					for="grid-passout"
-				>
-					Passout Year
-				</label>
-				<input
-					class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-					id="grid-passout"
-					type="text"
-					placeholder=""
-					bind:value={passoutYear}
-					on:input={validatePassoutYear}
-				/>
-			</div>
+{#if !showEducationForm}
+	<section class="flex w-full">
+		<button
+			on:click={showEducationFormHandler}
+			class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-800 transition duration-150 ease-in-out"
+		>
+			<i class="mr-2 fas fa-plus"></i> Add Education
+		</button>
+	</section>
+{/if}
 
-			<!-- mark scored with real-time validation -->
-			<div class="w-full md:w-1/1 px-3 md:mb-0">
-				<label
-					class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
-					for="grid-mark-score"
-				>
-					Mark Scored (%)
-				</label>
-				<input
-					class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-					id="grid-mark-score"
-					type="text"
-					placeholder=""
-					bind:value={markScore}
-					on:input={validateMarkScore}
-				/>
-			</div>
-			{#if showSuccessMessage}
-				<div class="text-xs text-green-500 mt-2">Saved successfully!</div>
-			{/if}
+{#if showEducationForm}
+	<div class="overlay">
+		<div class="modal">
+			<div class="flex flex-wrap">
+				<div class="w-full md:w-1/1 px-3 md:mb-0">
+					<label
+						class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
+						for="grid-institution"
+					>
+						Institution
+					</label>
+					<input
+						class="input-shade appearance-none block w-full text-gray-600 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+						id="grid-institution"
+						type="text"
+						placeholder=""
+						bind:value={institution}
+						on:input={() => (institutionError = '')}
+					/>
+					{#if institutionError}
+						<p class="text-xs text-red-500 mt-1">{institutionError}</p>
+					{/if}
+				</div>
+				<div class="w-full md:w-1/2 px-3 md:mb-0">
+					<label
+						class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
+						for="grid-course-name"
+					>
+						Stream
+					</label>
+					<input
+						class="input-shade appearance-none block w-full text-gray-600 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+						id="grid-course-name"
+						type="text"
+						placeholder=""
+						bind:value={courseName}
+						on:input={() => (courseNameError = '')}
+					/>
+					{#if courseNameError}
+						<p class="text-xs text-red-500 mt-1">{courseNameError}</p>
+					{/if}
+				</div>
+				<div class="w-full md:w-1/2 px-3">
+					<label
+						class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
+						for="grid-Course"
+					>
+						Course
+					</label>
+					<input
+						class="input-shade appearance-none block w-full text-gray-600 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+						id="grid-Course"
+						type="text"
+						placeholder=""
+						bind:value={course}
+						on:input={() => (courseError = '')}
+					/>
+					{#if courseError}
+						<p class="text-xs text-red-500 mt-1">{courseError}</p>
+					{/if}
+				</div>
+				<div class="w-full md:w-1/1 px-3 md:mb-0">
+					<label
+						class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
+						for="grid-passout"
+					>
+						Passout Year
+					</label>
+					<input
+						class="input-shade appearance-none block w-full text-gray-600 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+						id="grid-passout"
+						type="text"
+						placeholder=""
+						bind:value={passoutYear}
+						on:input={() => (passoutYearError = '')}
+					/>
+					{#if passoutYearError}
+						<p class="text-xs text-red-500 mt-1">{passoutYearError}</p>
+					{/if}
+				</div>
+				<div class="w-full md:w-1/1 px-3 md:mb-0">
+					<label
+						class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
+						for="grid-mark-score"
+					>
+						Mark Scored (%)
+					</label>
+					<input
+						class="input-shade appearance-none block w-full text-gray-600 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+						id="grid-mark-score"
+						type="text"
+						placeholder=""
+						bind:value={markScore}
+						on:input={() => (markScoreError = '')}
+					/>
+					{#if markScoreError}
+						<p class="text-xs text-red-500 mt-1">{markScoreError}</p>
+					{/if}
+				</div>
 
-			<!-- Error Message -->
-			{#if errorMessage}
-				<div class="text-xs text-red-500 mt-2">{errorMessage}</div>
-			{/if}
-			<!-- Cancel and Submit Buttons -->
-			<div class="flex justify-end w-full">
-				<!-- <button class="cancel-btn" on:click|preventDefault={cancelEducationForm}> Cancel </button> -->
-				<button class="save-btn" on:click|preventDefault={handleEducationInformation}>
-					<SaveButton>Save</SaveButton>
-				</button>
+				{#if errorMessage}
+					<div class="text-xs text-red-500 mt-2">{errorMessage}</div>
+				{/if}
+				<div class="flex justify-end w-full mr-4 mt-5">
+					<button 
+						class="cancel-btn px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-gray-500 hover:bg-gray-400 focus:outline-none focus:border-gray-700 focus:shadow-outline-green active:bg-gray-800 transition duration-150 ease-in-out mr-2"
+						on:click={cancelEducationForm}
+					>
+						<span>Cancel</span>
+					</button>
+					<button 
+						class="save-btn px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-500 hover:bg-blue-400 focus:outline-none focus:border-blue-700 focus:shadow-outline-green active:bg-blue-800 transition duration-150 ease-in-out"
+						on:click|preventDefault={handleEducationInformation}
+					>
+						<span>{editingIndex !== null ? 'Save' : 'Add'}</span>
+					</button>
+				</div>
+
+				
 			</div>
 		</div>
 	</div>
+{/if}
+{#if showSuccessMessage}
+	<div class="text-xs text-green-500 mt-2">Saved successfully!</div>
+{/if}
+<div class="w-full mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    {#each educations as education, index (education.id)}
+        <div class="bg-blue-200 rounded-lg p-4 text-white relative" key={index}>
+            <div class="absolute top-2 right-2">
+                <button on:click|preventDefault={() => editEducation(index)} class="edit-btn mr-2">
+                    <i class="text-xs fas fa-pencil-alt text-green-500"></i>
+                </button>
+                <button on:click|preventDefault={() => removeEducation(index)} class="remove-btn">
+                    <i class="text-red-500 fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <section class="flex flex-col">
+                <div class="mb-4">
+                    <span class="text-gray-900">Institution:</span>
+                    <p class="text-gray-600">{education.institution}</p>
+                </div>
+                <div class="mb-4">
+                    <span class="text-gray-900">Course:</span>
+                    <p class="text-gray-600">{education.course}</p>
+                </div>
+                <div class="mb-4">
+                    <span class="text-gray-900">Passout Year:</span>
+                    <p class="text-gray-600">{education.passoutYear}</p>
+                </div>
+                <div class="mb-4">
+                    <span class="text-gray-900">Course Name:</span>
+                    <p class="text-gray-600">{education.courseName}</p>
+                </div>
+                <div class="mb-4">
+                    <span class="text-gray-900">Mark Scored:</span>
+                    <p class="text-gray-600">{education.markScore}</p>
+                </div>
+            </section>
+        </div>
+    {/each}
 </div>
-<!-- {/if} -->
 
-<!-- Display added education details -->
-<div class="w-full mt-4 grid grid-cols-2 gap-5">
-	{#each educations as education, index (education.id)}
-		<div class=" f bg-gray-500 rounded-lg p-2 text-white" key={index}>
-			<!-- Success Message -->
-			<section class="flex flex-row">
-				<!-- Display education details -->
-				<div class="w-full px-3 md:mb-0 ">
-					<span class="flex justify-between w-full items-start overflow-hidden">
-						<p>Institution:</p>
-						<p class="flex items-start justify-start ">{education.institution}</p></span
-					>
-					<span class="flex justify-between w-full items-start">
-						<p>Course:</p>
-						<p class="flex items-start justify-start">{education.course}</p></span
-					>
-					<span class="flex justify-between w-full items-start">
-						<p>Passout Year:</p>
-						<p class="flex items-start justify-start">{education.passoutYear}</p></span
-					>
-					<span class="flex justify-between w-full items-start">
-						<p>Course Name:</p>
-						<p class="flex items-start justify-start">{education.courseName}</p></span
-					>
-					<span class="flex justify-between w-full items-start">
-						<p>Mark Scored:</p>
-						<p class="flex items-start justify-start">{education.markScore}</p></span
-					>
-				</div>
-				<div class="flex h-full items-start justify-end align-top">
-					<!-- Edit and Remove Buttons -->
-					<button on:click|preventDefault={() => editEducation(index)} class="edit-btn">
-						<i class="text-xs fas fa-pencil-alt text-green-500"></i>
-					</button>&nbsp;
-					<button on:click|preventDefault={() => removeEducation(index)} class="remove-btn">
-						<i class="text-red-500 fa-solid fa-xmark"></i>
-					</button>
-				</div>
-			</section>
-		</div>
-	{/each}
-</div>
+
 <!-- pop up model -->
 <!-- <style>
 	
