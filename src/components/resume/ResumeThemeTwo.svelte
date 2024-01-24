@@ -77,7 +77,7 @@ import WaveSpline from '../home/WaveSpline.svelte';
  
   
 
-<div class="resume rounded-lg shadow-2xl w-full z-10" id="resume-download" data-tilt data-tilt-max="10" data-tilt-glare data-tilt-max-glare="2.8"   data-tilt-reset-to-start="true">
+<div class="resume rounded-lg shadow-2xl w-full z-10" id="resume-download"  >
 	<div class="resume_left">
 		{#if userData.basic_details}
 			<div class="resume_profile">

@@ -2,7 +2,8 @@
 	import { createEventDispatcher } from 'svelte';
 	import SaveButton from '../home/SaveButton.svelte';
 	import { afterUpdate } from 'svelte';
-  import { socialMediaStore } from '../../lib/stores/socialMediaStore';
+	import { socialMediaStore } from '../../lib/stores/socialMediaStore';
+  
 	let socialMediaEntries = {};
 	let newPlatform = '';
 	let newUrl = '';
@@ -19,7 +20,7 @@
 	  if (!validateUrl()) {
 		return;
 	  }
-
+  
 	  console.log('Platform:', newPlatform);
   
 	  if (editingIndex !== null) {
@@ -45,8 +46,9 @@
 	}
   
 	function removeSocialMedia(index) {
-	  delete socialMediaEntries[index];
-	  socialMediaEntries = { ...socialMediaEntries };
+	  const { [index]: deleted, ...rest } = socialMediaEntries;
+	  socialMediaEntries = rest;
+	  socialMediaStore.set(socialMediaEntries);
 	}
   
 	function cancelEdit() {
@@ -81,8 +83,6 @@
 	function saveSocialMediaAPI(platform, url) {
 	  const apiUrl = '/api/social-media';
 	  const resumeId = getResumeId();
-	  socialMediaStore.set({platform,url})
-
   
 	  let requestOptions = {
 		method: 'POST',
@@ -121,9 +121,11 @@
 			  {}
 			);
 			socialMediaEntries = updatedSocialMediaEntries;
+			socialMediaStore.set(updatedSocialMediaEntries);
 		  } else {
 			// If socialMediaId is not present, it means we are adding a new entry
 			socialMediaEntries[insertedSocialMediaId] = { id: insertedSocialMediaId, platform, url };
+			socialMediaStore.set(socialMediaEntries);
 		  }
   
 		  // Reset requestBody.socialMediaId after update or insert
@@ -161,22 +163,23 @@
   <div class="flex flex-wrap">
 	<!-- Platform -->
 	<div class="w-full px-3 md:mb-0">
-		<label
-		  class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
-		  for="grid-platform"
-		>Platform:</label>
-	  
-		<select
-		  name="grid-platform"
-		  id="grid-platform"
-		  class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-		  bind:value={newPlatform}
-		>
-		  <option value="github" selected={newPlatform === 'github'}>GitHub</option>
-		  <option value="linkedin" selected={newPlatform === 'linkedin'}>LinkedIn</option>
-		  <option value="instagram" selected={newPlatform === 'instagram'}>Instagram</option>
-		</select>
-	  </div>
+	  <label
+		class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
+		for="grid-platform"
+	  >Platform:</label>
+  
+	  <select
+		name="grid-platform"
+		id="grid-platform"
+		class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+		bind:value={newPlatform}
+		bind:this={platformInputField}
+	  >
+		<option value="github" selected={newPlatform === 'github'}>GitHub</option>
+		<option value="linkedin" selected={newPlatform === 'linkedin'}>LinkedIn</option>
+		<option value="instagram" selected={newPlatform === 'instagram'}>Instagram</option>
+	  </select>
+	</div>
   
 	<!-- URL -->
 	<div class="w-full px-3 md:mb-0 mt-5">
@@ -206,44 +209,46 @@
   
 	<!-- Social Media Entries -->
 	<div class="w-full mt-4">
-	
-	{#each Object.values(socialMediaEntries) as { id, platform, url }, index (index)}
-	  <div class="flex items-center space-x-2 mb-2" key={index}>
-		<span class="bg-gray-300 text-gray-700 px-2 py-1 rounded">
-		  {platform} - {url}
-		</span>
-		<button
-		  on:click|preventDefault={() => {
-			editingIndex = id;
-			newPlatform = socialMediaEntries[id].platform;
-			newUrl = socialMediaEntries[id].url;
-			// Set socialMediaId when editing
-			requestBody.socialMediaId = id;
-			// Check if platformInputField is defined before calling focus
-			if (platformInputField) {
-			  platformInputField.focus();
-			}
-		  }}
-		  class="edit-btn">
-		  <i class="fas fa-pencil-alt"></i>
-		</button>
-		<button
-		  on:click|preventDefault={() => {
-			cancelEdit();
-		  }}
-		  class="remove-btn">
-		  <i class="fas fa-times"></i>
-		</button>
-	  </div>
-	{/each}
-  </div>
+	  {#each Object.values(socialMediaEntries) as { id, platform, url }, index (index)}
+		<div class="flex items-center space-x-2 mb-2" key={index}>
+		  <span class="bg-gray-300 text-gray-700 px-2 py-1 rounded">
+			{platform} - {url}
+		  </span>
+		  <button
+			on:click|preventDefault={() => {
+			  editingIndex = id;
+			  fillFormWithEditingData();
+			  // Set socialMediaId when editing
+			  requestBody.socialMediaId = id;
+			  // Check if platformInputField is defined before calling focus
+			  if (platformInputField) {
+				platformInputField.focus();
+			  }
+			}}
+			class="edit-btn">
+			<i class="fas fa-pencil-alt"></i>
+		  </button>
+		  <button
+			on:click|preventDefault={() => {
+			  removeSocialMedia(id);
+			}}
+			class="remove-btn">
+			<i class="fas fa-times"></i>
+		  </button>
+		</div>
+	  {/each}
+	</div>
   
 	<!-- Submit Button -->
 	<div class="flex justify-end w-full mt-2">
 	  <button
 		class="save-btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
 		on:click|preventDefault={handleSocialMediaInformation}>
-		<button>{editingIndex !== null ? 'Save' : 'Add'} </button>
+		{#if editingIndex !== null}
+		  Save
+		{:else}
+		  Add
+		{/if}
 	  </button>
 	</div>
   </div>

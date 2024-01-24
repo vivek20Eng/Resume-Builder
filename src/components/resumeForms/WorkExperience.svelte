@@ -2,7 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import SaveButton from '../home/SaveButton.svelte';
 	import { afterUpdate } from 'svelte';
-
+import {workExperienceStore} from '../../lib/stores/workExperienceStore.js';
 	let experienceEntries = [];
 	let company = '';
 	let designation = '';
@@ -34,6 +34,7 @@
 			...experienceEntries,
 			{ ...formData } // Create a copy of formData
 		];
+		workExperienceStore.set(experienceEntries)
 
 		// Reset input fields
 		company = '';
@@ -88,7 +89,9 @@
 	function removeExperience(index) {
 		experienceEntries.splice(index, 1);
 		// Ensure reactivity by creating a new array
-		experienceEntries = [...experienceEntries];
+		experienceEntries = [...experienceEntries];	
+			workExperienceStore.set(experienceEntries)
+
 	}
 
 	// Validate start and end date

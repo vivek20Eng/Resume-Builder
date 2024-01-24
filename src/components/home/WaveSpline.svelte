@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 	import { onMount } from "svelte";
 
     import { Application } from '@splinetool/runtime';
@@ -24,4 +24,4 @@ onMount(async () => {
 		}
 	});
 </script>
-<canvas id="canvas3d" class="absolute "></canvas>
+<canvas id="canvas3d" class="absolute "></canvas> -->

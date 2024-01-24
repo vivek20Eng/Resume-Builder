@@ -2,7 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import SaveButton from '../home/SaveButton.svelte';
 	import { afterUpdate } from 'svelte';
-
+	import { educationStore } from '../../lib/stores/educationStore.js';
 	let educations = [];
 	let institution = '';
 	let course = '';
@@ -66,10 +66,13 @@
 				if (editingIndex !== null) {
 					// Editing an existing education
 					educations[editingIndex] = { ...formData, id: insertedEducationId };
+					educationStore.set(educations);
+
 					editingIndex = null;
 				} else {
 					// Adding a new education
 					educations = [...educations, { ...formData, id: insertedEducationId }];
+					educationStore.set(educations);
 				}
 
 				// Clear the form after submission
@@ -148,6 +151,7 @@
 	// Function to remove education by index
 	function removeEducation(index) {
 		educations = educations.filter((_, i) => i !== index);
+		educationStore.set(educations);
 	}
 
 	// Function to edit education by index
@@ -195,96 +199,97 @@
 	}
 </script>
 
-<button on:click={showEducationFormHandler}>Add Education</button>
+<section class="">
+	<!-- <button on:click={showEducationFormHandler}>Add Education</button> -->
+</section>
+<!-- {#if showEducationForm} -->
+<div class="overlay">
+	<div class="modal">
+		<div class="flex flex-wrap">
+			<!-- Institution -->
+			<div class="w-full md:w-1/1 px-3 md:mb-0">
+				<label
+					class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
+					for="grid-institution"
+				>
+					Institution
+				</label>
+				<input
+					class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+					id="grid-institution"
+					type="text"
+					placeholder=""
+					bind:value={institution}
+				/>
+			</div>
+			<!-- course name -->
+			<div class="w-full md:w-1/2 px-3 md:mb-0">
+				<label
+					class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
+					for="grid-course-name"
+				>
+					Stream
+				</label>
+				<input
+					class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+					id="grid-course-name"
+					type="text"
+					placeholder=""
+					bind:value={courseName}
+				/>
+			</div>
+			<!-- course -->
+			<div class="w-full md:w-1/2 px-3">
+				<label
+					class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
+					for="grid-course"
+				>
+					Course
+				</label>
+				<input
+					class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+					id="grid-Course"
+					type="text"
+					placeholder=""
+					bind:value={course}
+				/>
+			</div>
+			<!-- passout year with real-time validation -->
+			<div class="w-full md:w-1/1 px-3 md:mb-0">
+				<label
+					class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
+					for="grid-passout"
+				>
+					Passout Year
+				</label>
+				<input
+					class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+					id="grid-passout"
+					type="text"
+					placeholder=""
+					bind:value={passoutYear}
+					on:input={validatePassoutYear}
+				/>
+			</div>
 
-{#if showEducationForm}
-	<div class="overlay">
-		<div class="modal">
-			<div class="flex flex-wrap">
-				<!-- Institution -->
-				<div class="w-full md:w-1/1 px-3 md:mb-0">
-					<label
-						class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
-						for="grid-institution"
-					>
-						Institution
-					</label>
-					<input
-						class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-						id="grid-institution"
-						type="text"
-						placeholder=""
-						bind:value={institution}
-					/>
-				</div>
-				<!-- course name -->
-				<div class="w-full md:w-1/2 px-3 md:mb-0">
-					<label
-						class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
-						for="grid-course-name"
-					>
-						Stream
-					</label>
-					<input
-						class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-						id="grid-course-name"
-						type="text"
-						placeholder=""
-						bind:value={courseName}
-					/>
-				</div>
-				<!-- course -->
-				<div class="w-full md:w-1/2 px-3">
-					<label
-						class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
-						for="grid-course"
-					>
-						Course
-					</label>
-					<input
-						class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-						id="grid-Course"
-						type="text"
-						placeholder=""
-						bind:value={course}
-					/>
-				</div>
-				<!-- passout year with real-time validation -->
-				<div class="w-full md:w-1/1 px-3 md:mb-0">
-					<label
-						class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
-						for="grid-passout"
-					>
-						Passout Year
-					</label>
-					<input
-						class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-						id="grid-passout"
-						type="text"
-						placeholder=""
-						bind:value={passoutYear}
-						on:input={validatePassoutYear}
-					/>
-				</div>
-
-				<!-- mark scored with real-time validation -->
-				<div class="w-full md:w-1/1 px-3 md:mb-0">
-					<label
-						class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
-						for="grid-mark-score"
-					>
-						Mark Scored
-					</label>
-					<input
-						class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-						id="grid-mark-score"
-						type="text"
-						placeholder=""
-						bind:value={markScore}
-						on:input={validateMarkScore}
-					/>
-				</div>
-				{#if showSuccessMessage}
+			<!-- mark scored with real-time validation -->
+			<div class="w-full md:w-1/1 px-3 md:mb-0">
+				<label
+					class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
+					for="grid-mark-score"
+				>
+					Mark Scored (%)
+				</label>
+				<input
+					class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+					id="grid-mark-score"
+					type="text"
+					placeholder=""
+					bind:value={markScore}
+					on:input={validateMarkScore}
+				/>
+			</div>
+			{#if showSuccessMessage}
 				<div class="text-xs text-green-500 mt-2">Saved successfully!</div>
 			{/if}
 
@@ -292,44 +297,63 @@
 			{#if errorMessage}
 				<div class="text-xs text-red-500 mt-2">{errorMessage}</div>
 			{/if}
-				<!-- Cancel and Submit Buttons -->
-				<div class="flex justify-end w-full">
-					<button class="cancel-btn" on:click|preventDefault={cancelEducationForm}> Cancel </button>
-					<button class="save-btn" on:click|preventDefault={handleEducationInformation}>
-						<SaveButton>Save</SaveButton>
-					</button>
-				</div>
+			<!-- Cancel and Submit Buttons -->
+			<div class="flex justify-end w-full">
+				<!-- <button class="cancel-btn" on:click|preventDefault={cancelEducationForm}> Cancel </button> -->
+				<button class="save-btn" on:click|preventDefault={handleEducationInformation}>
+					<SaveButton>Save</SaveButton>
+				</button>
 			</div>
 		</div>
 	</div>
-{/if}
+</div>
+<!-- {/if} -->
 
 <!-- Display added education details -->
-<div class="w-full mt-4">
+<div class="w-full mt-4 grid grid-cols-2 gap-5">
 	{#each educations as education, index (education.id)}
-		<div class="flex flex-wrap" key={index}>
+		<div class=" f bg-gray-500 rounded-lg p-2 text-white" key={index}>
 			<!-- Success Message -->
-			
-			<!-- Display education details -->
-			<div class="w-full px-3 md:mb-0">
-				<p>Institution: {education.institution}</p>
-				<p>Course: {education.course}</p>
-				<p>Passout Year: {education.passoutYear}</p>
-				<p>Course Name: {education.courseName}</p>
-				<p>Mark Scored: {education.markScore}</p>
-			</div>
-
-			<!-- Edit and Remove Buttons -->
-			<button on:click|preventDefault={() => editEducation(index)} class="edit-btn">Edit</button>
-			<button on:click|preventDefault={() => removeEducation(index)} class="remove-btn"
-				>Remove</button
-			>
+			<section class="flex flex-row">
+				<!-- Display education details -->
+				<div class="w-full px-3 md:mb-0 ">
+					<span class="flex justify-between w-full items-start overflow-hidden">
+						<p>Institution:</p>
+						<p class="flex items-start justify-start ">{education.institution}</p></span
+					>
+					<span class="flex justify-between w-full items-start">
+						<p>Course:</p>
+						<p class="flex items-start justify-start">{education.course}</p></span
+					>
+					<span class="flex justify-between w-full items-start">
+						<p>Passout Year:</p>
+						<p class="flex items-start justify-start">{education.passoutYear}</p></span
+					>
+					<span class="flex justify-between w-full items-start">
+						<p>Course Name:</p>
+						<p class="flex items-start justify-start">{education.courseName}</p></span
+					>
+					<span class="flex justify-between w-full items-start">
+						<p>Mark Scored:</p>
+						<p class="flex items-start justify-start">{education.markScore}</p></span
+					>
+				</div>
+				<div class="flex h-full items-start justify-end align-top">
+					<!-- Edit and Remove Buttons -->
+					<button on:click|preventDefault={() => editEducation(index)} class="edit-btn">
+						<i class="text-xs fas fa-pencil-alt text-green-500"></i>
+					</button>&nbsp;
+					<button on:click|preventDefault={() => removeEducation(index)} class="remove-btn">
+						<i class="text-red-500 fa-solid fa-xmark"></i>
+					</button>
+				</div>
+			</section>
 		</div>
 	{/each}
-	
 </div>
-
-<style>
+<!-- pop up model -->
+<!-- <style>
+	
 	.modal {
 		position: fixed;
 		top: 50%;
@@ -350,4 +374,4 @@
 		background: rgba(0, 0, 0, 0.5);
 		z-index: 999;
 	}
-</style>
+</style> -->

@@ -2,7 +2,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import SaveButton from '../home/SaveButton.svelte';
 	import { afterUpdate } from 'svelte';
-  
+  import {projectsStore} from '../../lib/stores/projectsStore.js'
 	let projectEntries = [];
 	let projectTitle = '';
 	let projectDescription = '';
@@ -21,7 +21,7 @@
   
 	  // Add the new project entry to the array
 	  projectEntries = [...projectEntries, { projectTitle, projectDescription, startDate, endDate }];
-  
+  projectsStore.set(projectEntries)
 	  // Reset input fields
 	  projectTitle = '';
 	  projectDescription = '';
@@ -48,6 +48,7 @@
 	  projectEntries.splice(index, 1);
 	  // Ensure reactivity by creating a new array
 	  projectEntries = [...projectEntries];
+	  projectsStore.set(projectEntries)
 	}
   
 	// Validate start date and end date

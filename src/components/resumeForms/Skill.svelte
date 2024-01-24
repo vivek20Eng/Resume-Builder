@@ -14,7 +14,6 @@ import { skillsStore } from '../../lib/stores/skillsStore.js';
 	const dispatch = createEventDispatcher();
 
 	function handleSkillInformation() {
-		skillsStore.set(skills)
 
 		// Validate new skill input
 		if (!newSkill.trim()) {
@@ -35,6 +34,7 @@ import { skillsStore } from '../../lib/stores/skillsStore.js';
 		} else {
 			// Adding a new skill
 			saveSkillAPI(newSkill);
+			skillsStore.set(skills)
 
 		}
 
@@ -180,7 +180,7 @@ import { skillsStore } from '../../lib/stores/skillsStore.js';
 							}}
 							class="edit-btn text-xs"
 						>
-							<i class="text-xs fas fa-pencil-alt"></i>
+							<i class="text-xs fas fa-pencil-alt text-green-500"></i>
 						</button>
 					</section>
 				</section>
