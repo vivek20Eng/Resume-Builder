@@ -332,7 +332,7 @@
 {/if}
 <div class="w-full mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
     {#each educations as education, index (education.id)}
-        <div class="bg-blue-200 rounded-lg p-4 text-white relative" key={index}>
+        <div class="bg-blue-200/20 rounded-lg p-4 text-white relative shadow-lg" key={index}>
             <div class="absolute top-2 right-2">
                 <button on:click|preventDefault={() => editEducation(index)} class="edit-btn mr-2">
                     <i class="text-xs fas fa-pencil-alt text-green-500"></i>

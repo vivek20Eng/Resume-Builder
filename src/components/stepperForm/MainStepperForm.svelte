@@ -7,7 +7,7 @@
 	import Projects from '../resumeForms/Projects.svelte';
 	import SocialMedia from '../resumeForms/SocialMedia.svelte';
 	import WorkExperience from '../resumeForms/WorkExperience.svelte';
-	import Education from '../../components/resumeForms/Education.svelte'
+	import Education from '../../components/resumeForms/Education.svelte';
 
 	import { createEventDispatcher } from 'svelte';
 	let workExperienceInformation = {};
@@ -93,7 +93,6 @@
 	let currentStep = 1;
 	let totalSteps = 8;
 
-
 	onMount(() => {
 		// You can perform initialization or fetch data here
 	});
@@ -109,85 +108,106 @@
 			currentStep -= 1;
 		}
 	}
-
-	
 </script>
 
 <div class="stepper-container mx-10 mt-5 flex">
-	<div class="stepper  flex flex-col ">
+	<div class="stepper flex flex-col">
 		<section>
 			<div class="step {currentStep === 1 && 'active'}">
 				<!-- Step 1 Content -->
-				<span class="flex align-middle justify-center"><h2 class="font-bold">Basic information</h2></span>
-				
-				<BasicInformation on:basicInformationData={handleResumeData} />		</div>
+				<span class="flex align-middle justify-center"
+					><h2 class="font-bold">Basic information</h2></span
+				>
+
+				<BasicInformation on:basicInformationData={handleResumeData} />
+			</div>
 
 			<div class="step {currentStep === 2 && 'active'}">
 				<!-- Step 2 Content -->
 				<span class="flex align-middle justify-center"><h2 class="font-bold">Education</h2></span>
-				<Education on:educationData={handleResumeData} />			</div>
+				<Education on:educationData={handleResumeData} />
+			</div>
 			<div class="step {currentStep === 3 && 'active'}">
 				<!-- Step 2 Content -->
 				<span class="flex align-middle justify-center"><h2 class="font-bold">Project</h2></span>
-				<Projects on:projectData={handleResumeData} />			
+				<Projects on:projectData={handleResumeData} />
 			</div>
 			<div class="step {currentStep === 4 && 'active'}">
 				<!-- Step 3 Content -->
-				<span class="flex align-middle justify-center"><h2 class="font-bold">Language</h2></span>
-				<!-- <LanguageComponent/> -->
-				<Language on:languageData={handleResumeData} />			</div>
+				<span class="flex align-middle justify-center"
+					><h2 class="font-bold">WorkExperience</h2></span
+				>
+				<WorkExperience on:experienceData={handleResumeData} />
+			</div>
+
 			<div class="step {currentStep === 5 && 'active'}">
 				<!-- Step 3 Content -->
-				<span class="flex align-middle justify-center"><h2 class="font-bold"> Skill</h2></span>
+				<span class="flex align-middle justify-center"><h2 class="font-bold">Skill</h2></span>
 				<!-- <LanguageComponent/> -->
 				<Skill on:skillData={handleResumeData} />
 			</div>
 			<div class="step {currentStep === 6 && 'active'}">
 				<!-- Step 3 Content -->
 				<span class="flex align-middle justify-center"><h2 class="font-bold">SocialMedia</h2></span>
-				<SocialMedia on:socialMediaData={handleResumeData} />			</div>
+				<SocialMedia on:socialMediaData={handleResumeData} />
+			</div>
 			<div class="step {currentStep === 7 && 'active'}">
 				<!-- Step 3 Content -->
-				<span class="flex align-middle justify-center"><h2 class="font-bold">WorkExperience</h2></span>
-				<WorkExperience on:experienceData={handleResumeData} />			</div>
+				<span class="flex align-middle justify-center"><h2 class="font-bold">Language</h2></span>
+				<!-- <LanguageComponent/> -->
+				<Language on:languageData={handleResumeData} />
+			</div>
 		</section>
 		<section>
 			<div class="button-container items-end justify-end relative bottom-0">
-				<button on:click={previousStep} class="{currentStep === 1 && 'previous'} w-10 h-10 p-2 rounded-full cursor-pointer bg-sky-500 hover:bg-sky-700 text-white duration-75"><i class="  fa-solid fa-backward"></i></button>
+				<button
+					on:click={previousStep}
+					class="{currentStep === 1 &&
+						'previous'} w-10 h-10 p-2 rounded-full cursor-pointer bg-sky-500 hover:bg-sky-700 text-white duration-75"
+					><i class="  fa-solid fa-backward"></i></button
+				>
 				{#if currentStep < totalSteps}
-					<button on:click={nextStep} class="w-10 h-10 p-2 rounded-full cursor-pointer bg-sky-500 hover:bg-sky-700 text-white duration-75"><i class="fa-solid fa-forward"></i></button>
+					<button
+						on:click={nextStep}
+						class="w-10 h-10 p-2 rounded-full cursor-pointer bg-sky-500 hover:bg-sky-700 text-white duration-75"
+						><i class="fa-solid fa-forward"></i></button
+					>
 				{:else}
-				<div class="flex justify-end">
-					<button type="submit" class="m-5 text-white rounded-lg shadow-sm"on:click|preventDefault={createResume}>
-						<div
-							class="w-full h-full relative inline-flex items-center justify-center p-4 px-6 py-2 overflow-hidden font-medium text-sky-600 transition duration-300 ease-out border-2 border-sky-500 rounded-lg shadow-md group"
+					<div class="flex justify-end">
+						<button
+							type="submit"
+							class="m-5 text-white rounded-lg shadow-sm"
+							on:click|preventDefault={createResume}
 						>
-							<span
-								class="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-sky-400 group-hover:translate-x-0 ease"
+							<div
+								class="w-full h-full relative inline-flex items-center justify-center p-4 px-6 py-2 overflow-hidden font-medium text-sky-600 transition duration-300 ease-out border-2 border-sky-500 rounded-lg shadow-md group"
 							>
-								<svg
-									class="w-6 h-6"
-									fill="none"
-									stroke="currentColor"
-									viewBox="0 0 24 24"
-									xmlns="http://www.w3.org/2000/svg"
+								<span
+									class="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-sky-400 group-hover:translate-x-0 ease"
 								>
-									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										stroke-width="2"
-										d="M14 5l7 7m0 0l-7 7m7-7H3"
-									></path>
-								</svg>
-							</span>
-							<span
-								class="absolute flex items-center justify-center w-full h-full text-sky-500 transition-all duration-300 transform group-hover:translate-x-full ease"
-								>create resume</span
-							>
-							<span class="relative invisible">create resume</span>
-						</div>
-					</button>
-				</div>
+									<svg
+										class="w-6 h-6"
+										fill="none"
+										stroke="currentColor"
+										viewBox="0 0 24 24"
+										xmlns="http://www.w3.org/2000/svg"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="2"
+											d="M14 5l7 7m0 0l-7 7m7-7H3"
+										></path>
+									</svg>
+								</span>
+								<span
+									class="absolute flex items-center justify-center w-full h-full text-sky-500 transition-all duration-300 transform group-hover:translate-x-full ease"
+									>create resume</span
+								>
+								<span class="relative invisible">create resume</span>
+							</div>
+						</button>
+					</div>
 				{/if}
 			</div>
 		</section>
@@ -197,7 +217,6 @@
 <!-- 999 ---->
 
 <style>
-	/* Add your styling for the form here */
 	.stepper-container {
 		display: flex;
 		justify-content: center;
@@ -226,8 +245,6 @@
 		justify-content: space-between;
 		margin-top: 20px;
 	}
-
-	
 
 	button.previous {
 		background-color: #ccc;

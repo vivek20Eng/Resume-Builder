@@ -1,6 +1,5 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
-	import SaveButton from '../home/SaveButton.svelte';
 	import { afterUpdate } from 'svelte';
 	import { socialMediaStore } from '../../lib/stores/socialMediaStore';
   
@@ -11,8 +10,10 @@
 	let errorMessage = '';
 	let editingIndex = null;
 	let requestBody = {};
-	let platformInputField; // Reference to the platform input field
-	let urlInputField; // Reference to the URL input field
+	let platformInputField;
+	let urlInputField;
+	let isFormVisible = false;
+	let isEditMode = false;
   
 	const dispatch = createEventDispatcher();
   
@@ -38,6 +39,8 @@
 	  setTimeout(() => {
 		showSuccessMessage = false;
 	  }, 1000);
+	  isFormVisible = false;
+	  isEditMode = false;
 	}
   
 	function resetFields() {
@@ -51,14 +54,11 @@
 	  socialMediaStore.set(socialMediaEntries);
 	}
   
-	function cancelEdit() {
-	  editingIndex = null;
-	  resetFields();
-	}
-  
 	function fillFormWithEditingData() {
 	  newPlatform = socialMediaEntries[editingIndex].platform;
 	  newUrl = socialMediaEntries[editingIndex].url;
+	  isEditMode = true;
+	  isFormVisible = true; // Set isFormVisible to true when editing
 	}
   
 	function validateUrl() {
@@ -93,13 +93,12 @@
 		  platform,
 		  url,
 		  resumeId,
-		  socialMediaId: requestBody.socialMediaId, // Include socialMediaId when editing
+		  socialMediaId: requestBody.socialMediaId,
 		}),
 	  };
   
-	  // Adjust request method for editing
 	  if (requestBody.socialMediaId) {
-		requestOptions.method = 'PUT'; // Assuming your server supports the PUT method for updates
+		requestOptions.method = 'PUT';
 	  }
   
 	  fetch(apiUrl, requestOptions)
@@ -111,11 +110,11 @@
 		  console.log('Inserted social media ID:', insertedSocialMediaId);
   
 		  if (requestBody.socialMediaId) {
-			// If socialMediaId is present, it means we are updating an existing entry
 			const updatedSocialMediaEntries = Object.keys(socialMediaEntries).reduce(
 			  (acc, key) => {
 				const id = socialMediaEntries[key].id;
-				acc[id] = id === requestBody.socialMediaId ? { id, platform, url } : socialMediaEntries[key];
+				acc[id] =
+				  id === requestBody.socialMediaId ? { id, platform, url } : socialMediaEntries[key];
 				return acc;
 			  },
 			  {}
@@ -123,15 +122,12 @@
 			socialMediaEntries = updatedSocialMediaEntries;
 			socialMediaStore.set(updatedSocialMediaEntries);
 		  } else {
-			// If socialMediaId is not present, it means we are adding a new entry
 			socialMediaEntries[insertedSocialMediaId] = { id: insertedSocialMediaId, platform, url };
 			socialMediaStore.set(socialMediaEntries);
 		  }
   
-		  // Reset requestBody.socialMediaId after update or insert
 		  requestBody.socialMediaId = null;
   
-		  // Dispatch an event
 		  dispatch('socialMediaData', insertedSocialMediaId);
 		})
 		.catch((error) => console.error('Error:', error));
@@ -144,76 +140,108 @@
   </script>
   
   <style>
-	.remove-btn,
-	.edit-btn {
-	  cursor: pointer;
-	  padding: 0.5rem;
-	  margin-left: 0.5rem;
-	}
-  
-	.remove-btn {
-	  color: #e53e3e;
-	}
-  
-	.edit-btn {
-	  color: #3182ce;
-	}
+	/* Add your styles here */
   </style>
   
-  <div class="flex flex-wrap">
-	<!-- Platform -->
-	<div class="w-full px-3 md:mb-0">
-	  <label
-		class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
-		for="grid-platform"
-	  >Platform:</label>
-  
-	  <select
-		name="grid-platform"
-		id="grid-platform"
-		class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-		bind:value={newPlatform}
-		bind:this={platformInputField}
+  <section class="flex w-full">
+	{#if !isFormVisible}
+	  <button
+		on:click={() => {
+		  isFormVisible = true;
+		  resetFields();
+		  isEditMode = false;
+		  editingIndex = null;
+		}}
+		class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-800 transition duration-150 ease-in-out"
 	  >
-		<option value="github" selected={newPlatform === 'github'}>GitHub</option>
-		<option value="linkedin" selected={newPlatform === 'linkedin'}>LinkedIn</option>
-		<option value="instagram" selected={newPlatform === 'instagram'}>Instagram</option>
-	  </select>
+		<i class="mr-2 fas fa-plus"></i> Add SocialMedia
+	  </button>
+	{/if}
+  </section>
+  
+  {#if isFormVisible}
+	<div class="flex flex-wrap">
+	  <!-- Platform -->
+	  <div class="w-full px-3 md:mb-0">
+		<label
+		  class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
+		  for="grid-platform"
+		>Platform:</label>
+  
+		<select
+		  name="grid-platform"
+		  id="grid-platform"
+		  class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+		  bind:value={newPlatform}
+		  bind:this={platformInputField}
+		>
+		  <option value="github" selected={newPlatform === 'github'}>GitHub</option>
+		  <option value="linkedin" selected={newPlatform === 'linkedin'}>LinkedIn</option>
+		  <option value="instagram" selected={newPlatform === 'instagram'}>Instagram</option>
+		</select>
+	  </div>
+  
+	  <!-- URL -->
+	  <div class="w-full px-3 md:mb-0 mt-5">
+		<label
+		  class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
+		  for="grid-url"
+		>URL</label>
+  
+		<input
+		  class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
+		  id="grid-url"
+		  type="text"
+		  placeholder=""
+		  bind:value={newUrl}
+		  bind:this={urlInputField}
+		/>
+	  </div>
+  
+	  <!-- Error Message -->
+	  {#if errorMessage}
+		<div class="ml-2 text-xs text-red-500 mt-2">{errorMessage}</div>
+	  {/if}
+  
+	  
+	  	<!-- Submit and Cancel Buttons -->
+	<div class="flex justify-end w-full mt-5 mr-3">
+		<button
+		  class="cancel-btn px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-gray-500 hover:bg-gray-400 focus:outline-none focus:border-gray-700 focus:shadow-outline-green active:bg-gray-800 transition duration-150 ease-in-out mr-2"
+		  on:click={() => {
+			isFormVisible = false;
+			resetFields();
+		  }}
+		>
+		  <span>Cancel</span>
+		</button>
+		<button
+		  class="save-btn px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-500 hover:bg-blue-400 focus:outline-none focus:border-blue-700 focus:shadow-outline-green active:bg-blue-800 transition duration-150 ease-in-out"
+		  on:click|preventDefault={handleSocialMediaInformation}
+		>
+		  {#if isEditMode}
+			Save
+		  {:else}
+			Add
+		  {/if}
+		</button>
+	  </div>
 	</div>
   
-	<!-- URL -->
-	<div class="w-full px-3 md:mb-0 mt-5">
-	  <label
-		class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
-		for="grid-url">URL</label
-	  >
-	  <input
-		class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
-		id="grid-url"
-		type="text"
-		placeholder=""
-		bind:value={newUrl}
-		bind:this={urlInputField}
-	  />
-	</div>
-  
-	<!-- Error Message -->
-	{#if errorMessage}
-	  <div class="text-xs text-red-500 mt-2">{errorMessage}</div>
-	{/if}
-  
-	<!-- Success Message -->
-	{#if showSuccessMessage}
-	  <div class="text-xs text-green-500 mt-2">Saved successfully!</div>
-	{/if}
-  
-	<!-- Social Media Entries -->
-	<div class="w-full mt-4">
-	  {#each Object.values(socialMediaEntries) as { id, platform, url }, index (index)}
-		<div class="flex items-center space-x-2 mb-2" key={index}>
-		  <span class="bg-gray-300 text-gray-700 px-2 py-1 rounded">
-			{platform} - {url}
-		  </span>
+
+  {/if}
+  <!-- Success Message -->
+  {#if showSuccessMessage}
+  <div class="text-xs text-green-500 mt-2">Saved successfully!</div>
+{/if}
+  <!-- Social Media Entries -->
+  <div class="w-full mt-4">
+	{#each Object.values(socialMediaEntries) as { id, platform, url }, index (index)}
+	  <div class="flex items-center gap-2  mb-2 border rounded p-2 bg-sky-300/20 shadow-lg" key={index}>
+		<div class="flex-grow">
+		  <span class="text-gray-700">{platform}</span> - <span class="text-gray-500">{url}</span>
+		</div>
+		<div class="flex items-center gap-2">
 		  <button
 			on:click|preventDefault={() => {
 			  editingIndex = id;
@@ -225,31 +253,21 @@
 				platformInputField.focus();
 			  }
 			}}
-			class="edit-btn">
-			<i class="fas fa-pencil-alt"></i>
+			class="edit-btn text-blue-500 hover:text-blue-700"
+		  >
+			<i class="fas fa-pencil-alt text-xs"></i>
 		  </button>
+  
 		  <button
 			on:click|preventDefault={() => {
 			  removeSocialMedia(id);
 			}}
-			class="remove-btn">
-			<i class="fas fa-times"></i>
+			class="remove-btn text-red-500 hover:text-red-700"
+		  >
+			<i class="fas fa-times text-xs"></i>
 		  </button>
 		</div>
-	  {/each}
-	</div>
-  
-	<!-- Submit Button -->
-	<div class="flex justify-end w-full mt-2">
-	  <button
-		class="save-btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-		on:click|preventDefault={handleSocialMediaInformation}>
-		{#if editingIndex !== null}
-		  Save
-		{:else}
-		  Add
-		{/if}
-	  </button>
-	</div>
+	  </div>
+	{/each}
   </div>
   

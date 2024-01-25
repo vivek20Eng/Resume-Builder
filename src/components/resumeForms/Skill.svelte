@@ -12,8 +12,8 @@
 	let requestBody = {};
 	let inputField; // Reference to the input field
 	const dispatch = createEventDispatcher();
-	let isFormVisible = false; // Add this line to control form visibility
-	let isEditMode = false; // Add this line to track edit mode
+	let isFormVisible = false; 
+	let isEditMode = false; 
 
 	function resetForm() {
 		newSkill = '';
@@ -162,10 +162,7 @@
 					<div class="text-xs text-red-500 mt-2">{errorMessage}</div>
 				{/if}
 
-				<!-- Submit Button -->
-				<div class="flex justify-between">
-					<section></section>
-				</div>
+				
 				<!-- Submit and Cancel Buttons -->
 				<div class="flex justify-end w-full mt-5 mr-3">
 					<button
@@ -196,7 +193,7 @@
 <div class="w-full mt-4">
 	{#each skills as { id, skill }, index (id)}
 		<div class="flex items-center space-x-2 mb-2" key={id}>
-			<section class="bg-gray-300 px-2 rounded-full flex justify-between min-w-32">
+			<section class="bg-blue-300/20 shadow-lg px-2 rounded-full flex justify-between min-w-32">
 				<span class="text-sm text-gray-700 px-2 py-1 rounded">{skill}</span>
 				<section class="flex justify-between gap-2">
 					<button

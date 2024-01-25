@@ -229,7 +229,7 @@
  <!-- Display added languages and proficiencies -->
 <div class="w-full mt-4 grid grid-cols-3 gap-3">
 	{#each languages as { language, proficiency }, index (index)}
-	  <div class="flex items-center w-auto break-words bg-gray-200 rounded-lg px-4 py-2" key={index}>
+	  <div class="flex items-center w-auto break-words bg-sky-300/20 shadow-lg rounded-lg px-4 py-2" key={index}>
 		<section class="w-full flex items-center justify-between">
 		  <div class="flex items-center">
 			<span class="text-gray-700 mr-2 break-words">{language}</span>
