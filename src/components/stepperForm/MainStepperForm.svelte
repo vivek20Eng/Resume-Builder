@@ -159,6 +159,7 @@
 			</div>
 		</section>
 		<section>
+
 			<div class="button-container items-end justify-end relative bottom-0">
 				<button
 					on:click={previousStep}
@@ -173,6 +174,8 @@
 						><i class="fa-solid fa-forward"></i></button
 					>
 				{:else}
+<div class="flex flex-col">				<p class="text-lg leading-7">Ensure the accuracy of the provided details, and upon confirmation, proceed to click the 'Create Resume' button to generate your personalized resume. </p><br/>
+
 					<div class="flex justify-end">
 						<button
 							type="submit"
@@ -208,12 +211,13 @@
 							</div>
 						</button>
 					</div>
+				</div>
+
 				{/if}
 			</div>
 		</section>
 	</div>
 </div>
-
 <!-- 999 ---->
 
 <style>

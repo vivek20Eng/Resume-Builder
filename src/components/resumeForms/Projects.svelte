@@ -261,7 +261,7 @@
 <!-- Project Entries -->
 <div class="w-full mt-4">
   {#each projectEntries as { projectTitle, startDate, endDate }, index (index)}
-    <div class="bg-gray-200 p-4 rounded mb-4 flex items-center justify-between" key={index}>
+    <div class="bg-sky-300/10 shadow-lg p-4 rounded mb-4 flex items-center justify-between" key={index}>
       <div>
         <p class="text-lg font-semibold">{projectTitle}</p>
         <p class="text-gray-600">{startDate} to {endDate}</p>

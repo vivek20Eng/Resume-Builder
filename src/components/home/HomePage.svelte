@@ -14,7 +14,7 @@
 			// await app.load('https://prod.spline.design/ldwAQvWpnZwr12LY/scene.splinecode');
 			// await app.load('https://prod.spline.design/uM4F0X08rKgK4fU1/scene.splinecode');
 			// await app.load('https://prod.spline.design/uM4F0X08rKgK4fU1/scene.splinecode');
-			await app.load('https://prod.spline.design/FYc9763CpFCV6w8S/scene.splinecode');
+			// await app.load('https://prod.spline.design/FYc9763CpFCV6w8S/scene.splinecode');
 
 
 		} catch (error) {
@@ -77,13 +77,13 @@
 							stroke-width="2"
 							d="M14 5l7 7m0 0l-7 7m7-7H3"
 						></path></svg
-					>&nbsp Create Resume
+					>&nbsp Let's Get Started
 				</span>
 				<span
 					class="text-lg absolute flex items-center justify-center w-full h-full text-sky-600 transition-all duration-300 transform group-hover:translate-x-full ease"
-					>Create Resume</span
+					>Let's Get Started</span
 				>
-				<span class="relative invisible text-lg ">Create Resume</span>
+				<span class="relative invisible text-lg ">Let's Get Started</span>
 			</a>
 		</section>
 	</div>

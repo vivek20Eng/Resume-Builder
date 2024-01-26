@@ -59,11 +59,11 @@
 
 <section class="m-5 border rounded-lg p-5 bg-gray-100">
     {#if basicDetails.full_name}
-    <section class="w-full gap-5 grid grid-cols-3">
+    <section class="w-full gap-5 grid grid-cols-3 items-center">
         <div class="col-span-2">
             <h1 class="font-bold text-3xl text-indigo-800">{basicDetails.full_name}</h1>
             <p class="text-blue-600"><em>{basicDetails.desigination}</em></p>
-            <p class="text-sm mt-5 text-gray-700">{basicDetails.summary}</p>
+            <p class="text-sm mt-3 text-gray-700">{basicDetails.summary}</p>
         </div>
         {#if basicDetails.imageUrl != ""}
         <div class="flex items-center justify-end">
@@ -75,14 +75,16 @@
     <hr class="my-5" />
 
     {#if basicDetails.full_name}
-    <h3 class="font-bold text-xl mb-2 text-indigo-800">Basic details</h3>
+    <h3 class="font-bold text-xl mb-2 text-indigo-800">
+        <i class="fas fa-info-circle mr-2"></i> Basic details
+    </h3>
     <hr class="mb-5" />
     <div class="grid grid-cols-4 my-2 text-sm">
-        <div class="flex gap-2 col-span-2">
+        <div class="flex gap-2 col-span-2 items-center">
             <span><i class="fas fa-envelope text-gray-600"></i></span>
             <span class="flex items-center">{basicDetails.email}</span>
         </div>
-        <div class="flex gap-2 col-span-2">
+        <div class="flex gap-2 col-span-2 items-center">
             <span><i class="fas fa-phone text-gray-600"></i></span>
             <span class="flex items-center">{basicDetails.phone_number}</span>
         </div>
@@ -94,31 +96,16 @@
     <hr class="my-5" />
     {/if}
 
-    <h3 class="font-bold text-xl mb-2 text-indigo-800">Language</h3>
-    <hr class="mb-5" />
-    <ul class="text-sm">
-        {#each languages as { language, proficiency }, index (index)}
-        <li class="mb-1">
-            <span class="font-semibold text-gray-800">{language}</span> - {proficiency}
-        </li>
-        {/each}
-    </ul>
-    <hr class="my-5" />
-
-    <h3 class="font-bold text-xl mb-2 text-indigo-800">Skills</h3>
-    <ul class="text-sm list-disc ml-6">
-        {#each skills as { skill }, index (index)}
-        <li class="mb-1 text-gray-800">{skill}</li>
-        {/each}
-    </ul>
-    <hr class="my-5" />
-
-    <h3 class="font-bold text-xl mb-2 text-indigo-800">Education</h3>
+    <h3 class="font-bold text-xl mb-2 text-indigo-800">
+        <i class="fas fa-graduation-cap mr-2"></i> Education
+    </h3>
     <hr class="mb-5" />
     <ul class="text-sm">
         {#each educations as { institution, course, passoutYear, courseName, markScore }, index (index)}
         <li class="mb-2">
-            <span class="font-semibold text-gray-800">{institution}</span><br>
+            <span class="font-semibold text-gray-800">
+                <i class="fas fa-university mr-2"></i> {institution}
+            </span><br>
             <span class="text-gray-600">{courseName} - {course}</span><br>
             <span class="text-gray-400">{passoutYear}</span><br>
             <span class="text-gray-400">{markScore}% marks scored</span>
@@ -127,12 +114,16 @@
     </ul>
     <hr class="my-5" />
 
-    <h3 class="font-bold text-xl mb-2 text-indigo-800">Work Experience</h3>
+    <h3 class="font-bold text-xl mb-2 text-indigo-800">
+        <i class="fas fa-briefcase mr-2"></i> Work Experience
+    </h3>
     <hr class="mb-5" />
     <ul class="text-sm">
         {#each workExperience as { company, designation, joiningDate, endDate, totalWorkExperience }, index (index)}
         <li class="mb-2">
-            <span class="font-semibold text-gray-800">{company}</span><br>
+            <span class="font-semibold text-gray-800">
+                <i class="fas fa-building mr-2"></i> {company}
+            </span><br>
             <span class="text-gray-600">{designation} - {totalWorkExperience} years</span><br>
             <span class="text-gray-400">{joiningDate} - {endDate}</span>
         </li>
@@ -140,6 +131,31 @@
     </ul>
     <hr class="my-5" />
 
-    <h3 class="font-bold text-xl mb-2 text-indigo-800">Contact Me</h3>
+    <h3 class="font-bold text-xl mb-2 text-indigo-800">
+        <i class="fas fa-language mr-2"></i> Language
+    </h3>
     <hr class="mb-5" />
+    <ul class="text-sm">
+        {#each languages as { language, proficiency }, index (index)}
+        <li class="mb-1">
+            <span class="font-semibold text-gray-800">{language}</span> - {proficiency}
+        </li>
+        {/each}
+    </ul>
+
+    <h3 class="font-bold text-xl mb-2 text-indigo-800">
+        <i class="fas fa-code mr-2"></i> Skills
+    </h3>
+    <hr class="mb-2" />
+    <ul class="text-sm list-disc ml-6 mt-2">
+        {#each skills as { skill }, index (index)}
+        <li class="mb-1 text-gray-800">{skill}</li>
+        {/each}
+    </ul>
+    <hr class="my-5" />
+
+    <h3 class="font-bold text-xl mb-2 text-indigo-800">
+        <i class="fas fa-address-book mr-2"></i> Contact Me
+    </h3>
+    <hr class="my-5" />
 </section>
