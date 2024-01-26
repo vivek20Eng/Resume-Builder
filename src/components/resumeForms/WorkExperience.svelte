@@ -11,7 +11,6 @@
 	let totalWorkExperience = '';
 	let showSuccessMessage = false;
 	let errorMessage = '';
-	let isFormVisible = false;
 	let isEditMode = false;
 	let editIndex = -1; // Track the index of the experience being edited
   
@@ -53,7 +52,6 @@
 	  setTimeout(() => {
 		showSuccessMessage = false;
 	  }, 1000);
-	  isFormVisible = false;
 
 	  try {
 		// API endpoint URL
@@ -96,7 +94,6 @@
   
 	// Function to edit an experience entry
 	function editExperience(index) {
-	  isFormVisible = true;
 	  isEditMode = true;
 	  editIndex = index;
   
@@ -153,24 +150,11 @@
 	}
   </script>
   
-  <section class="flex w-full">
-	{#if !isFormVisible}
-	  <button
-		on:click={() => {
-		  isFormVisible = true;
-		  resetForm();
-		}}
-		class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-800 transition duration-150 ease-in-out"
-	  >
-		<i class="mr-2 fas fa-plus"></i> Add Workexperience
-	  </button>
-	{/if}
-  </section>
   
-  {#if isFormVisible}
+  
 	<div class="flex flex-wrap">
 	  <!-- work experience -->
-	  <div class="w-full md:w-1/1 px-3 md:mb-0">
+	  <div class="w-full md:w-1/1  md:mb-0">
 		<label
 		  class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
 		  for="grid-institution"
@@ -178,7 +162,7 @@
 		  Company
 		</label>
 		<input
-		  class="input-shade appearance-none block w-full text-gray-300 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+		  class="input-shade appearance-none block w-full text-gray-600 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
 		  id="grid-Company"
 		  type="text"
 		  placeholder=""
@@ -187,7 +171,7 @@
 		
 	  </div>
 	  <!-- designation -->
-	  <div class="w-full md:w-1/1 px-3 md:mb-0">
+	  <div class="w-full md:w-1/1  md:mb-0">
 		<label
 		  class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
 		  for="grid-designation"
@@ -195,7 +179,7 @@
 		  Designation
 		</label>
 		<input
-		  class="input-shade appearance-none block w-full text-gray-300 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+		  class="input-shade appearance-none block w-full text-gray-600 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
 		  id="grid-designation"
 		  type="text"
 		  placeholder=""
@@ -205,7 +189,7 @@
 	  </div>
   
 	  <!-- joining date -->
-	  <div class="w-full md:w-1/2 px-3 md:mb-0 mt-2">
+	  <div class="w-full md:w-1/2  md:mb-0 mt-2 pr-2">
 		<label
 		  class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
 		  for="grid-joining-date"
@@ -213,7 +197,7 @@
 		  Joining Date
 		</label>
 		<input
-		  class="input-shade appearance-none block w-full text-gray-300 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+		  class="input-shade appearance-none block w-full text-gray-600 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
 		  id="grid-joining-date"
 		  type="date"
 		  placeholder=""
@@ -222,11 +206,11 @@
 		/>
 		<!-- Error Message -->
 		{#if errorMessage && !joiningDate}
-		  <div class="text-xs text-red-500 mt-2">{errorMessage}</div>
+		  <div class="text-xs text-red-500 mt-2 ">{errorMessage}</div>
 		{/if}
 	  </div>
 	  <!-- end date -->
-	  <div class="w-full md:w-1/2 px-3 md:mb-0 mt-2">
+	  <div class="w-full md:w-1/2  md:mb-0 mt-2 pl-2">
 		<label
 		  class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
 		  for="grid-end-date"
@@ -234,28 +218,29 @@
 		  End Date
 		</label>
 		<input
-		  class="input-shade appearance-none block w-full text-gray-300 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+		  class="input-shade appearance-none block w-full text-gray-600 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
 		  id="grid-end-date"
 		  type="date"
 		  placeholder=""
 		  bind:value={endDate}
 		  on:change={validateDates}
 		/>
+		
 		<!-- Error Message -->
-		{#if errorMessage && !endDate}
+		{#if errorMessage }
 		  <div class="text-xs text-red-500 mt-2">{errorMessage}</div>
 		{/if}
 	  </div>
 	  <!-- total work experience -->
-	  <div class="w-full md:w-1/1 px-3 md:mb-0">
+	  <div class="w-full md:w-1/1  md:mb-0">
 		<label
 		  class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
 		  for="grid-total-work-experience"
 		>
 		  Total Work Experience
 		</label>
-		<input
-		  class="input-shade appearance-none block w-full text-gray-300 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+		<input maxlength="2"
+		  class="input-shade appearance-none block w-full text-gray-600 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
 		  id="grid-total-work-experience"
 		  type="text"
 		  placeholder=""
@@ -266,29 +251,33 @@
 	  
   
 	  <!-- Submit and Cancel Buttons -->
-	  <div class="flex justify-end w-full mt-5 mr-3">
+	  <div class="flex justify-between w-full mt-5 ">
+		<div>
+			
+			  <!-- Success Message -->
+{#if showSuccessMessage}
+<div class="text-xs text-green-500 mt-2">Saved successfully!</div>
+{/if}
+		</div>
+		<section>
 		<button
 		  class="cancel-btn px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-gray-500 hover:bg-gray-400 focus:outline-none focus:border-gray-700 focus:shadow-outline-green active:bg-gray-800 transition duration-150 ease-in-out mr-2"
 		  on:click={() => {
-			isFormVisible = false;
 			resetForm();
 		  }}
 		>
 		  <span>Cancel</span>
 		</button>
 		<button
-		  class="save-btn px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-500 hover:bg-blue-400 focus:outline-none focus:border-blue-700 focus:shadow-outline-green active:bg-blue-800 transition duration-150 ease-in-out"
+		  class="save-btn px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:border-blue-700 focus:shadow-outline-green active:bg-blue-800 transition duration-150 ease-in-out"
 		  on:click|preventDefault={handleExperienceInformation}
 		>
 		  {#if isEditMode}Save{:else}Add{/if}
 		</button>
+	</section>
 	  </div>
 	</div>
-  {/if}
-  <!-- Success Message -->
-{#if showSuccessMessage}
-<div class="text-xs text-green-500 mt-2">Saved successfully!</div>
-{/if}
+
 <!-- Experience Entries -->
 <div class="w-full mt-4">
 	{#each experienceEntries as { company, designation, joiningDate, endDate, totalWorkExperience }, index (index)}
@@ -304,7 +293,7 @@
 			<i class="text-xs fas fa-pencil-alt text-green-500"></i>
 		  </button>
 		  <button on:click={() => removeExperience(index)} class="remove-btn">
-			<i class="text-red-500 fa-solid fa-xmark"></i>
+			<i class="text-red-500 fa-solid fa-trash text-xs"></i>
 		  </button>
 		</div>
 	  </div>

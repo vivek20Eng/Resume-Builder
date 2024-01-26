@@ -176,6 +176,9 @@ VanillaTilt.init(elements,);
 
 <!--  -->
 <style>
+	input::placeholder {
+  color: #808080; 
+}
 	.resume-templates-list img:hover {
 		box-shadow: 0px 4px 7px 0px rgba(0, 0, 0, 0.616);
 		transition-delay: 200ms;

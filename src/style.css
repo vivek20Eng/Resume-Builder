@@ -11,7 +11,9 @@ body {
 	/* background-color: #ffffff;
     background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #ffffff4b 40px ), repeating-linear-gradient( #a5a6b611, #a5a6b621 ); */
 }
-
+input::placeholder {
+  color: #808080; 
+}
 /* Undeline */
 .myBox {
 	text-align: center;

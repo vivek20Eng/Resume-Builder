@@ -7,18 +7,22 @@
 	let newPlatform = '';
 	let newUrl = '';
 	let showSuccessMessage = false;
-	let errorMessage = '';
+	let platformErrorMessage = '';
+	let urlErrorMessage = '';
 	let editingIndex = null;
 	let requestBody = {};
 	let platformInputField;
 	let urlInputField;
-	let isFormVisible = false;
 	let isEditMode = false;
   
 	const dispatch = createEventDispatcher();
   
 	function handleSocialMediaInformation() {
-	  if (!validateUrl()) {
+	  // Reset error messages
+	  platformErrorMessage = '';
+	  urlErrorMessage = '';
+  
+	  if (!validatePlatform() || !validateUrl()) {
 		return;
 	  }
   
@@ -33,13 +37,11 @@
 	  }
   
 	  resetFields();
-	  errorMessage = '';
 	  showSuccessMessage = true;
   
 	  setTimeout(() => {
 		showSuccessMessage = false;
 	  }, 1000);
-	  isFormVisible = false;
 	  isEditMode = false;
 	}
   
@@ -58,17 +60,24 @@
 	  newPlatform = socialMediaEntries[editingIndex].platform;
 	  newUrl = socialMediaEntries[editingIndex].url;
 	  isEditMode = true;
-	  isFormVisible = true; // Set isFormVisible to true when editing
 	}
   
 	function validateUrl() {
 	  const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
 	  if (!newUrl.trim() || !newUrl.match(urlRegex)) {
-		errorMessage = 'Please enter a valid URL.';
+		urlErrorMessage = 'Please enter a valid URL.';
 		return false;
 	  }
   
-	  errorMessage = '';
+	  return true;
+	}
+  
+	function validatePlatform() {
+	  if (!newPlatform.trim()) {
+		platformErrorMessage = 'Please select a platform.';
+		return false;
+	  }
+  
 	  return true;
 	}
   
@@ -143,80 +152,70 @@
 	/* Add your styles here */
   </style>
   
-  <section class="flex w-full">
-	{#if !isFormVisible}
-	  <button
-		on:click={() => {
-		  isFormVisible = true;
-		  resetFields();
-		  isEditMode = false;
-		  editingIndex = null;
-		}}
-		class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-800 transition duration-150 ease-in-out"
+  <div class="flex flex-wrap">
+	<!-- Platform -->
+	<div class="w-full  md:mb-0">
+	  <label class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2" for="grid-platform">Platform:</label>
+  
+	  <select
+		name="grid-platform"
+		id="grid-platform"
+		class="input-shade appearance-none block w-full text-gray-600 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+		bind:value={newPlatform}
+		bind:this={platformInputField}
 	  >
-		<i class="mr-2 fas fa-plus"></i> Add SocialMedia
-	  </button>
-	{/if}
-  </section>
+		<option value="" disabled>Select a platform</option>
+		<option value="github" selected={newPlatform === 'github'}>GitHub</option>
+		<option value="linkedin" selected={newPlatform === 'linkedin'}>LinkedIn</option>
+		<option value="instagram" selected={newPlatform === 'instagram'}>Instagram</option>
+	  </select>
   
-  {#if isFormVisible}
-	<div class="flex flex-wrap">
-	  <!-- Platform -->
-	  <div class="w-full px-3 md:mb-0">
-		<label
-		  class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
-		  for="grid-platform"
-		>Platform:</label>
-  
-		<select
-		  name="grid-platform"
-		  id="grid-platform"
-		  class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-		  bind:value={newPlatform}
-		  bind:this={platformInputField}
-		>
-		  <option value="github" selected={newPlatform === 'github'}>GitHub</option>
-		  <option value="linkedin" selected={newPlatform === 'linkedin'}>LinkedIn</option>
-		  <option value="instagram" selected={newPlatform === 'instagram'}>Instagram</option>
-		</select>
-	  </div>
-  
-	  <!-- URL -->
-	  <div class="w-full px-3 md:mb-0 mt-5">
-		<label
-		  class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
-		  for="grid-url"
-		>URL</label>
-  
-		<input
-		  class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
-		  id="grid-url"
-		  type="text"
-		  placeholder=""
-		  bind:value={newUrl}
-		  bind:this={urlInputField}
-		/>
-	  </div>
-  
-	  <!-- Error Message -->
-	  {#if errorMessage}
-		<div class="ml-2 text-xs text-red-500 mt-2">{errorMessage}</div>
+	  <!-- Error Message for Platform -->
+	  {#if platformErrorMessage}
+		<div class=" text-xs text-red-500 mt-2">{platformErrorMessage}</div>
 	  {/if}
+	</div>
   
-	  
-	  	<!-- Submit and Cancel Buttons -->
-	<div class="flex justify-end w-full mt-5 mr-3">
+	<!-- URL -->
+	<div class="w-full  md:mb-0 mt-5">
+	  <label class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2" for="grid-url">URL</label>
+  
+	  <input
+		class="input-shade appearance-none block w-full text-gray-600 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white"
+		id="grid-url"
+		type="text"
+		placeholder=""
+		bind:value={newUrl}
+		bind:this={urlInputField}
+	  />
+  
+	  <!-- Error Message for URL -->
+	  {#if urlErrorMessage}
+		<div class=" text-xs text-red-500 mt-2">{urlErrorMessage}</div>
+	  {/if}
+	</div>
+  
+	<!-- Submit and Cancel Buttons -->
+	<div class="flex justify-between w-full mt-5 ">
+	  <div>
+		<!-- Success Message -->
+		{#if showSuccessMessage}
+		  <div class="text-xs text-green-500 mt-2">Saved successfully!</div>
+		{/if}
+	  </div>
+  
+	  <section>
 		<button
 		  class="cancel-btn px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-gray-500 hover:bg-gray-400 focus:outline-none focus:border-gray-700 focus:shadow-outline-green active:bg-gray-800 transition duration-150 ease-in-out mr-2"
 		  on:click={() => {
-			isFormVisible = false;
 			resetFields();
 		  }}
 		>
 		  <span>Cancel</span>
 		</button>
+  
 		<button
-		  class="save-btn px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-500 hover:bg-blue-400 focus:outline-none focus:border-blue-700 focus:shadow-outline-green active:bg-blue-800 transition duration-150 ease-in-out"
+		  class="save-btn px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:border-blue-700 focus:shadow-outline-green active:bg-blue-800 transition duration-150 ease-in-out"
 		  on:click|preventDefault={handleSocialMediaInformation}
 		>
 		  {#if isEditMode}
@@ -225,19 +224,14 @@
 			Add
 		  {/if}
 		</button>
-	  </div>
+	  </section>
 	</div>
+  </div>
   
-
-  {/if}
-  <!-- Success Message -->
-  {#if showSuccessMessage}
-  <div class="text-xs text-green-500 mt-2">Saved successfully!</div>
-{/if}
   <!-- Social Media Entries -->
   <div class="w-full mt-4">
 	{#each Object.values(socialMediaEntries) as { id, platform, url }, index (index)}
-	  <div class="flex items-center gap-2  mb-2 border rounded p-2 bg-sky-300/20 shadow-lg" key={index}>
+	  <div class="flex items-center gap-2  mb-2 border rounded p-2 bg-sky-300/20 shadow-ms hover:shadow-lg" key={index}>
 		<div class="flex-grow">
 		  <span class="text-gray-700">{platform}</span> - <span class="text-gray-500">{url}</span>
 		</div>
@@ -264,7 +258,7 @@
 			}}
 			class="remove-btn text-red-500 hover:text-red-700"
 		  >
-			<i class="fas fa-times text-xs"></i>
+			<i class="fas fa-trash text-xs"></i>
 		  </button>
 		</div>
 	  </div>

@@ -14,7 +14,6 @@
 		startDate: '',
 		endDate: ''
 	};
-	let isFormVisible = false;
 	let isEditMode = false;
 	let editIndex = -1;
   
@@ -63,7 +62,6 @@
 		}, 1000);
   
 		saveProjectInformation();
-		isFormVisible = false;
 	  }
 	}
   
@@ -97,7 +95,6 @@
 	  endDate = selectedProject.endDate;
   
 	  isEditMode = true;
-	  isFormVisible = true; 
 	  // Show the form when editing
 	  editIndex = index;
 	}
@@ -135,26 +132,11 @@
 	}
 </script>
   
-<section class="flex w-full">
-  {#if !isFormVisible}
-    <button
-      on:click={() => {
-        isFormVisible = true;
-        resetForm();
-        isEditMode = false; 
-		// Reset edit mode when adding a new project
-      }}
-      class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-800 transition duration-150 ease-in-out"
-    >
-      <i class="mr-2 fas fa-plus"></i> {#if isEditMode}Edit Project{:else}Add Project{/if}
-    </button>
-  {/if}
-</section>
 
-{#if isFormVisible}
+
   <div class="flex flex-wrap">
     <!-- projects -->
-    <div class="w-full md:w-1/1 px-3 md:mb-0">
+    <div class="w-full md:w-1/1  md:mb-0">
       <label
         class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
         for="grid-project"
@@ -162,7 +144,7 @@
         Project title
       </label>
       <input
-        class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        class="input-shade appearance-none block w-full text-gray-600 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
         id="grid-project"
         type="text"
         placeholder=""
@@ -174,7 +156,7 @@
       {/if}
     </div>
     <!-- project description -->
-    <div class="w-full md:w-1/1 px-3">
+    <div class="w-full md:w-1/1 ">
       <label
         class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
         for="grid-description"
@@ -182,7 +164,7 @@
         Project description
       </label>
       <input
-        class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        class="input-shade appearance-none block w-full text-gray-600 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         id="grid-description"
         type="text"
         placeholder=""
@@ -190,7 +172,7 @@
       />
     </div>
     <!-- start date -->
-    <div class="w-full md:w-1/2 px-3 md:mb-0 mt-2">
+    <div class="w-full md:w-1/2  md:mb-0 mt-2 pr-2">
       <label
         class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
         for="grid-start-date"
@@ -198,7 +180,7 @@
         Start date
       </label>
       <input
-        class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        class="input-shade appearance-none block w-full text-gray-600 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
         id="grid-start-date"
         type="date"
         placeholder=""
@@ -211,7 +193,7 @@
       {/if}
     </div>
     <!-- end date -->
-    <div class="w-full md:w-1/2 px-3 md:mb-0 mt-2">
+    <div class="w-full md:w-1/2  md:mb-0 mt-2 pl-2">
       <label
         class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
         for="grid-end-date"
@@ -219,7 +201,7 @@
         End date
       </label>
       <input
-        class="input-shade appearance-none block w-full text-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        class="input-shade appearance-none block w-full text-gray-600 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" 
         id="grid-end-date"
         type="date"
         placeholder=""
@@ -233,35 +215,38 @@
     </div>
 
     <!-- Submit and Cancel Buttons -->
-    <div class="flex justify-end w-full mt-5 mr-3">
+    <div class="flex justify-between w-full mt-5">
+      <div>
+        <!-- Success Message -->
+{#if showSuccessMessage}
+<div class="text-xs text-green-500 mt-2">Saved successfully!</div>
+{/if}
+      </div>
+      <section>
       <button
         class="cancel-btn px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-gray-500 hover:bg-gray-400 focus:outline-none focus:border-gray-700 focus:shadow-outline-green active:bg-gray-800 transition duration-150 ease-in-out mr-2"
         on:click={() => {
-          isFormVisible = false;
           resetForm();
         }}
       >
         <span>Cancel</span>
       </button>
       <button
-        class="save-btn px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-500 hover:bg-blue-400 focus:outline-none focus:border-blue-700 focus:shadow-outline-green active:bg-blue-800 transition duration-150 ease-in-out"
+        class="save-btn px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:border-blue-700 focus:shadow-outline-green active:bg-blue-800 transition duration-150 ease-in-out"
         on:click|preventDefault={handleProjectInformation}
       >
         {#if isEditMode}Save{:else}Add{/if}
       </button>
+    </section>
     </div>
   </div>
-{/if}
 
-<!-- Success Message -->
-{#if showSuccessMessage}
-  <div class="text-xs text-green-500 mt-2">Saved successfully!</div>
-{/if}
+
 
 <!-- Project Entries -->
 <div class="w-full mt-4">
   {#each projectEntries as { projectTitle, startDate, endDate }, index (index)}
-    <div class="bg-sky-300/10 shadow-lg p-4 rounded mb-4 flex items-center justify-between" key={index}>
+    <div class="bg-sky-300/20 shadow-md hover:shadow-lg p-4 rounded mb-4 flex items-center justify-between" key={index}>
       <div>
         <p class="text-lg font-semibold">{projectTitle}</p>
         <p class="text-gray-600">{startDate} to {endDate}</p>
