@@ -231,7 +231,7 @@
   <!-- Social Media Entries -->
   <div class="w-full mt-4">
 	{#each Object.values(socialMediaEntries) as { id, platform, url }, index (index)}
-	  <div class="flex items-center gap-2  mb-2 border rounded p-2 bg-sky-300/20 shadow-ms hover:shadow-lg" key={index}>
+	  <div class="flex items-center gap-2  mb-2 border rounded p-2 bg-sky-300/20 shadow-md hover:shadow-lg" key={index}>
 		<div class="flex-grow">
 		  <span class="text-gray-700">{platform}</span> - <span class="text-gray-500">{url}</span>
 		</div>

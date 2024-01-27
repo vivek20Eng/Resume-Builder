@@ -131,7 +131,7 @@
 
 <div class="flex flex-wrap">
 	<!-- Full Name -->
-	<div class="w-full md:w-2/2 px-3 md:mb-0">
+	<div class="w-full md:w-2/2  md:mb-0">
 		<label
 			class="block uppercase tracking-wide text-slate-400 text-xs font-bold mb-2"
 			for="grid-first-name"
@@ -152,7 +152,7 @@
 	</div>
 
 	<!-- Email -->
-	<div class="w-full md:w-2/2 px-3 md:mb-0">
+	<div class="w-full md:w-2/2  md:mb-0">
 		<label
 			class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
 			for="grid-email"
@@ -173,7 +173,7 @@
 	</div>
 
 	<!-- Phone Number -->
-	<div class="w-full md:w-2/2 px-3 md:mb-0">
+	<div class="w-full md:w-2/2  md:mb-0">
 		<label
 			class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
 			for="grid-number"
@@ -194,7 +194,7 @@
 	</div>
 
 	<!-- image -->
-	<div class="w-full md:w-2/2 px-3 md:mb-0">
+	<div class="w-full md:w-2/2  md:mb-0">
 		<label
 			class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
 			for="grid-image"
@@ -215,7 +215,7 @@
 	</div>
 
 	<!-- Address -->
-	<div class="w-full md:w-1/1 px-3 md:mb-0">
+	<div class="w-full md:w-1/1  md:mb-0">
 		<label
 			class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
 			for="grid-address"
@@ -236,7 +236,7 @@
 
 	<!-- City, State, Country -->
 	<!-- City -->
-	<div class="w-full md:w-1/3 px-3 md:mb-0 mt-2">
+	<div class="w-full md:w-1/3  md:mb-0 mt-2 pr-2">
 		<label
 			class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
 			for="grid-city"
@@ -256,7 +256,7 @@
 	</div>
 
 	<!-- State -->
-	<div class="w-full md:w-1/3 px-3 md:mb-0 mt-2">
+	<div class="w-full md:w-1/3  md:mb-0 mt-2 px-2">
 		<label
 			class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
 			for="grid-state"
@@ -276,7 +276,7 @@
 	</div>
 
 	<!-- Country -->
-	<div class="w-full md:w-1/3 px-3 md:mb-0 mt-2">
+	<div class="w-full md:w-1/3  md:mb-0 mt-2 pl-2">
 		<label
 			class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
 			for="grid-country"
@@ -296,7 +296,7 @@
 	</div>
 
 	<!-- pin code -->
-	<div class="w-full md:w-2/4 px-3 md:mb-0 mt-2">
+	<div class="w-full md:w-2/4  md:mb-0 mt-2 pr-2">
 		<label
 			class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
 			for="grid-pinCode"
@@ -316,7 +316,7 @@
 	</div>
 
 	<!-- current_location -->
-	<div class="w-full md:w-2/4 px-3 md:mb-0 mt-2">
+	<div class="w-full md:w-2/4 md:mb-0 mt-2 pl-2">
 		<label
 			class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
 			for="grid-currentLocation"
@@ -336,7 +336,7 @@
 	</div>
 
 	<!-- Designation -->
-	<div class="w-full md:w-2/2 px-3 md:mb-0 mt-2">
+	<div class="w-full md:w-2/2 md:mb-0 mt-2">
 		<label
 			class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
 			for="grid-desigination"
@@ -356,7 +356,7 @@
 	</div>
 
 	<!-- Summary -->
-	<div class="w-full md:w-2/2 px-3 md:mb-0">
+	<div class="w-full md:w-2/2  md:mb-0">
 		<label
 			class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
 			for="grid-summary"
@@ -386,7 +386,7 @@
 	{/if}
 
 	<!-- Submit Button -->
-<div class="flex justify-end w-full mt-5 mr-3">
+<div class="flex justify-end w-full mt-5">
 	<button class="bg-blue-500 hover:bg-blue-700 text-white  py-2 px-4 rounded text-center" on:click|preventDefault={handleBasicInformation}>
 	  {#if isEditMode}
 		<span class="">Edit</span>

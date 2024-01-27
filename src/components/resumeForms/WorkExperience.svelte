@@ -281,7 +281,7 @@
 <!-- Experience Entries -->
 <div class="w-full mt-4">
 	{#each experienceEntries as { company, designation, joiningDate, endDate, totalWorkExperience }, index (index)}
-	  <div class="bg-blue-200/20 shadow-md rounded-md p-4 mb-4 flex items-start justify-between" key={index}>
+	  <div class="bg-blue-200/20 shadow-md hover:shadow-lg rounded-md p-4 mb-4 flex items-start justify-between" key={index}>
 		<div>
 		  <p class="text-lg font-semibold">{company}</p>
 		  <p class="text-gray-600">{designation}</p>

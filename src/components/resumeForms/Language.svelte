@@ -167,7 +167,7 @@
 			bind:value={proficiency}
 			on:input={validateProficiency}
 		>
-			<option value="Select Proficiency">Select Proficiency</option>
+			<option value="" disabled>Select Proficiency</option>
 			<option value="beginner">Beginner</option>
 			<option value="intermediate">Intermediate</option>
 			<option value="advanced">Advanced</option>
