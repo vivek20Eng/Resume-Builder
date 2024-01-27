@@ -81,6 +81,7 @@
 				setTimeout(() => {
 					showSuccessMessage = false;
 				}, 1000);
+				dispatch('languageData', insertedLanguageId);
 
 				// Reset form and hide after adding
 				resetForm();

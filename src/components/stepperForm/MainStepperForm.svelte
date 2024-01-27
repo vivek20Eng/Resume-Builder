@@ -18,7 +18,6 @@
 	let projectInformation = {};
 	let skillInformation = {};
 	let socialMediaInformation = {};
-	let templateName = 'Edit';
 	let showSuccessMessage = false;
 	let errorMessage = '';
 

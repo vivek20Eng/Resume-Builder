@@ -130,7 +130,22 @@
         {/each}
     </ul>
     <hr class="my-5" />
-
+    <h3 class="font-bold text-xl mb-2 text-indigo-800">
+        <i class="fas fa-project-diagram mr-2"></i> Projects
+    </h3>
+    <hr class="mb-5" />
+    <ul class="text-sm">
+        {#each projects as { projectTitle, projectDescription, startDate, endDate }, index (index)}
+        <li class="mb-2">
+            <span class="font-semibold text-gray-800">
+                <i class="fas fa-tasks mr-2"></i> {projectTitle}
+            </span><br>
+            <span class="text-gray-600">{projectDescription}</span><br>
+            <span class="text-gray-400">{startDate} - {endDate}</span>
+        </li>
+        {/each}
+    </ul>
+    <hr class="my-5" />
     <h3 class="font-bold text-xl mb-2 text-indigo-800">
         <i class="fas fa-language mr-2"></i> Language
     </h3>

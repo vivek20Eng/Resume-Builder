@@ -76,7 +76,8 @@
 		  setTimeout(() => {
 			showSuccessMessage = false;
 		  }, 1000);
-  
+		  dispatch('educationData', insertedEducationId);
+
 		  // Update education data in the store
 		  if (editingIndex !== null) {
 			educations[editingIndex] = { ...formData, id: insertedEducationId };
