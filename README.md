@@ -126,5 +126,5 @@ npm run dev
 ![Templates](./screenshots/Templatepage.png)
 ![Template name](./screenshots/templatename.png)
 ![Resume Form](./screenshots/resumeform.png)
-![Resume Preview](./screenshots/resumepreviewside.png)
+![Resume Preview](./screenshots/Resumepreview.png)
 ![Resume Download](./screenshots/downloadpage.png)
