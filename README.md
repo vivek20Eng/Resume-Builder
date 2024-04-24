@@ -119,7 +119,7 @@ npm install
 # Start the development server
 npm run dev
 
-
+```
 ## Screenshots
 
 ![Home](./screenshots/homepage.png)
