@@ -163,7 +163,7 @@
       >
         Project description
       </label>
-      <input
+      <textarea
         class="input-shade appearance-none block w-full text-gray-600 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         id="grid-description"
         type="text"
@@ -245,10 +245,11 @@
 
 <!-- Project Entries -->
 <div class="w-full mt-4">
-  {#each projectEntries as { projectTitle, startDate, endDate }, index (index)}
+  {#each projectEntries as { projectTitle,projectDescription, startDate, endDate }, index (index)}
     <div class="bg-sky-300/20 shadow-md hover:shadow-lg p-4 rounded mb-4 flex items-center justify-between" key={index}>
       <div>
         <p class="text-lg font-semibold">{projectTitle}</p>
+        <p class="text-sm font-semibold text-slate-700">{projectDescription}</p>
         <p class="text-gray-600">{startDate} to {endDate}</p>
       </div>
       <div class="flex items-center space-x-2">

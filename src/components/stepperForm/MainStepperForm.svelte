@@ -8,7 +8,7 @@
 	import SocialMedia from '../resumeForms/SocialMedia.svelte';
 	import WorkExperience from '../resumeForms/WorkExperience.svelte';
 	import Education from '../../components/resumeForms/Education.svelte';
-
+	import {selectedMenu} from '../../lib/stores/StepStore.js'
 	import { createEventDispatcher } from 'svelte';
 	let workExperienceInformation = {};
 	let addressInformation = {};
@@ -22,7 +22,15 @@
 	let errorMessage = '';
 
 	const dispatch = createEventDispatcher();
-
+	onMount(() => {
+		const selectedMenuUnsubscribe = selectedMenu.subscribe((value) => {
+			currentStep = value;
+		});
+		return () => {
+			selectedMenuUnsubscribe();
+	}
+	})
+	
 	function handleResumeData(event) {
 		if (event.type === 'basicInformationData') {
 			if (event.addressResult) {

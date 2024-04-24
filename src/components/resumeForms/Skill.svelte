@@ -84,7 +84,7 @@
 
 		// Adjust request method for editing
 		if (requestBody.skillId) {
-			requestOptions.method = 'PUT'; // Assuming your server supports the PUT method for updates
+			requestOptions.method = 'PUT'; 
 		}
 
 		fetch(apiUrl, requestOptions)
@@ -134,8 +134,15 @@
 		<!-- Skill -->
 		<section class="w-full">
 			<div class="">
+				<label
+				class="block uppercase tracking-wide text-gray-400 text-xs font-bold mb-2"
+				for="grid-skill"
+			  >
+				Skill
+			  </label>
 				<!-- Skill -->
 				<div class="w-full flex">
+				
 					<input
 						class="input-shade appearance-none block w-full text-gray-900 rounded mb-2 focus:outline-none focus:bg-white"
 						type="text"

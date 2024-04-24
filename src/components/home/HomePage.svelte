@@ -14,7 +14,7 @@
 			// await app.load('https://prod.spline.design/ldwAQvWpnZwr12LY/scene.splinecode');
 			// await app.load('https://prod.spline.design/uM4F0X08rKgK4fU1/scene.splinecode');
 			// await app.load('https://prod.spline.design/uM4F0X08rKgK4fU1/scene.splinecode');
-			// await app.load('https://prod.spline.design/FYc9763CpFCV6w8S/scene.splinecode');
+			await app.load('https://prod.spline.design/FYc9763CpFCV6w8S/scene.splinecode');
 
 
 		} catch (error) {
