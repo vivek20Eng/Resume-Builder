@@ -97,9 +97,13 @@ You can find the database diagram for the Resume Builder application [here](http
 - Finalize documentation and prepare for deployment.
 
 ## Database Diagram
-![Database Diagram](https://dbdiagram.io/d/Resume-Builder-Application-6571646b56d8064ca08e27ac)
+[Database Diagram](https://dbdiagram.io/d/Resume-Builder-Application-6571646b56d8064ca08e27ac)
 
-
+## Domains
+- sveltekit
+- edgeDB
+- spline
+- Tailwind
 
 ## How to Run the SvelteKit App
 
@@ -114,3 +118,13 @@ npm install
 
 # Start the development server
 npm run dev
+
+
+## Screenshots
+
+![Home](./screenshots/homepage.png)
+![Templates](./screenshots/Templatepage.png)
+![Template name](./screenshots/templatename.png)
+![Resume Form](./screenshots/resumeform.png)
+![Resume Preview](./screenshots/resumepreviewside.png)
+![Resume Download](./screenshots/downloadpage.png)
