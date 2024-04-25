@@ -2,6 +2,9 @@
 
 ![Project Status](https://img.shields.io/badge/Status-In%20Progress-yellow)
 
+## Demo
+[![Resume Builder Demo](https://img.youtube.com/vi/LDJLmANk3B0/0.jpg)](https://www.youtube.com/watch?v=LDJLmANk3B0&list=PLqEsFbdKffrHop7MPmqCjoT-sPGtQkdDA)
+
 ## Overview
 Resume Builder is a project aimed at creating a user-friendly platform for generating and managing resumes. This README provides an overview of the project timeline, phases, tasks, and their progress.
 
