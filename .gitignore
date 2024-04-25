@@ -1,12 +1,74 @@
+
+# Ignore macOS .DS_Store files
 .DS_Store
-node_modules
-/build
-/.svelte-kit
+
+# Ignore Node.js modules
+node_modules/
+
+# Ignore build output
+/build/
+
+# Ignore Svelte Kit files
+/.svelte-kit/
 /package
-.env
-.env.*
+
+# Ignore environment files except for .env.example
+.env*
 !.env.example
+
+# Ignore Vite config timestamps
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-dbschema/edgeql-js
+# Ignore edgeql-js generated files
+dbschema/edgeql-js/
+
+# macOS specific files
+.DS_Store
+
+# Node.js specific files
+node_modules/
+
+# Build output
+/build/
+
+# Svelte Kit files
+/.svelte-kit/
+/package
+
+# Environment files (excluding .env.example)
+.env*
+!.env.example
+
+# Vite config timestamps
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Edgeql-js generated files
+dbschema/edgeql-js/
+
+# ESLint and Prettier configuration files
+.eslintrc.cjs
+.npmrc
+.prettierrc
+.prettierignore
+
+# Docker and Docker Compose files
+Dockerfile
+Dockerfile.dev
+docker-compose.yml
+
+# Playwright configuration file
+playwright.config.js
+
+# PostCSS configuration file
+postcss.config.cjs
+
+# Svelte configuration file
+svelte.config.js
+
+# Tailwind CSS configuration file
+tailwind.config.js
+
+# Vite configuration file
+vite.config.js
