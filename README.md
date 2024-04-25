@@ -2,7 +2,7 @@
 
 ![Project Status](https://img.shields.io/badge/Status-In%20Progress-yellow)
 
-## Demo
+## [Demo ▶](https://www.youtube.com/watch?v=LDJLmANk3B0&list=PLqEsFbdKffrHop7MPmqCjoT-sPGtQkdDA)
 [![Resume Builder Demo](https://img.youtube.com/vi/LDJLmANk3B0/0.jpg)](https://www.youtube.com/watch?v=LDJLmANk3B0&list=PLqEsFbdKffrHop7MPmqCjoT-sPGtQkdDA)
 
 ## Overview
